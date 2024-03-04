@@ -1,8 +1,11 @@
 // Incluye las bibliotecas necesarias
 #include <iostream>
 #include <string>
-#include "lattice.h"
-#include "cell.h"
+#include "src/Lattice/lattice2d.h"
+#include "lattice1d.h"
+#include "src/Cell/cell.h"
+#include "cellACE.h"
+#include "cellLife.h"
 
 // Función para imprimir el uso del programa
 void printUsage() {
@@ -31,7 +34,7 @@ int main(int argc, char *argv[]) {
   bool hasSizeFlag = false;
   bool hasBorderFlag = false;
 
-  Lattice lattice(1);
+  Lattice2D lattice(1);
 
   // Parsear los argumentos de la línea de comandos
   for (int i = 1; i < argc; ++i) {
@@ -103,11 +106,11 @@ int main(int argc, char *argv[]) {
 
   if (hasSizeFlag)
   {
-    Lattice lattice2(std::stoi(sizeFile), std::stoi(initFile));
+    Lattice2D lattice2(std::stoi(sizeFile), std::stoi(initFile));
     lattice = lattice2;
   } else
   {
-    Lattice lattice2(initFile.c_str());
+    Lattice2D lattice2(initFile.c_str());
     lattice = lattice2;
   }
   

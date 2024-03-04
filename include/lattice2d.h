@@ -1,24 +1,24 @@
 #pragma once
 
 #include <iostream>
-#include "cell.h" // Incluir el archivo de encabezado de la clase Cell
 #include <vector>
 #include <utility> // Para utilizar std::pair
 #include <algorithm> // Para std::find
+#include "cellLife.h"
 
 // Declaracion adelantada de la clase Cell
 class Cell;
 
 // Definición de la clase Lattice
-class Lattice {
+class Lattice2D {
 public:
     // Constructor que crea las células en memoria dinámica con valor inicial de estado muerta
-    Lattice(int N, int M);
-    Lattice(const char* filename);
-    Lattice(int once);
+    Lattice2D(int N, int M);
+    Lattice2D(const char* filename);
+    Lattice2D(int once);
 
     // Destructor para liberar la memoria de las células
-    ~Lattice();
+    ~Lattice2D();
 
     std::string getFrontera() const;
     void setFrontera(const std::string& frontera);
@@ -56,14 +56,15 @@ public:
     void saveToFile(const char* filename) const;
 
     // sobrecarga de operadores
-    Cell& operator[](const Position& pos) const;
-    friend std::ostream& operator<<(std::ostream& os, const Lattice& lattice);
-    Lattice& operator=(const Lattice& other);
+    CellLife& operator[](const PositionDim<2>& pos) const;
+    friend std::ostream& operator<<(std::ostream& os, const Lattice2D& lattice);
+    Lattice2D& operator=(const Lattice2D& other);
 
 private:
     int rows;                  // Ancho de la retícula
     int cols;                 // Altura de la retícula
-    std::vector<std::vector<Cell*>> cells_;   // Vector de punteros a células
+    std::vector<std::vector<CellLife*>> cells_;   // Vector de punteros a células
     std::string frontera_;
     bool popMode; // modo population
+    CellLife* deadCell = new CellLife(PositionDim<2>(2,0,0), false);
 };

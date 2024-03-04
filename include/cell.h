@@ -3,48 +3,35 @@
 #include <utility> // Para utilizar std::pair
 #include <vector>
 #include <iostream>
+#include "position.h"
+#include "positionDim.h"
 
-// Definición del tipo de dato para la posición
-using Position = std::pair<int, int>;
-// Definición del tipo de dato para el estado
-using State = bool;
-
-// Declaracion adelantada de la clase Lattice
-class Lattice;
+// Definición del estado de la célula
+typedef bool State;
 
 // Definición de la clase Cell
 class Cell {
+protected:
+  const PositionDim<1>& position; // Referencia a la posición de la célula
+  State state;              // Estado de la célula
+
 public:
+  // Constructor
+  Cell(const Position& pos, const State& st) : position(1), state(st) {}
 
-  // Constructor de la célula
-  Cell(const Position& pos, const State& state);
+  // Constructor
+  Cell(): position(0), state(false) {}
 
-  // getter y setter de estado
-  const State getState() const;
-  void setState(State newState);
+  // Métodos para obtener la posición y el estado de la célula
+  const PositionDim<1>& getPosition() const { return position; }
+  State getState() const { return state; }
 
-  // getter y setter de siguiente estado
-  State getNextState() const;
-  void setNextState(State newState);
+  // Método virtual para actualizar el estado de la célula
+  virtual void updateState();
 
-  // updater
-  void updateState();
+  // Método virtual para mostrar la célula en pantalla
+  virtual std::ostream& display(std::ostream&) const = 0;
 
-  // getter y setter de posicion
-  const Position getPosition() const;
-  void setPosition(int row, int col);
-
-  // vecindad
-  std::vector<Cell> getNeighbors(Lattice& lattice);
-
-  // funcion de transicion
-  State transitionFunction(std::vector<Cell> neighbors);
-
-  // Sobrecarga del operador<<
-  friend std::ostream& operator<<(std::ostream& os, const Cell& cell);
-
-private:
-  Position position_; // Posición de la célula en el retículo
-  State state_;       // Estado de la célula
-  State nextState_;
+  friend std::ostream& operator<<(std::ostream&, const Cell&);
 };
+
